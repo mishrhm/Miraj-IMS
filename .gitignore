@@ -1,0 +1,24 @@
+# OS Junk
+.DS_Store
+Thumbs.db
+
+# Docker Data
+postgres_data/
+
+# Local Environment Secrets
+.env
+.env.local
+.env.*.local
+
+# Dependency Folders
+node_modules/
+
+# Build Folders
+dist/
+.next/
+out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
