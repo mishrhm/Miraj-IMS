@@ -12,38 +12,77 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
+  id       String @id @default(uuid()) @db.Uuid
   email    String @unique
   password String
   name     String
-  role     String
+  role     ROLE @default(CUSTOMER)
 
-  productsAdded Product[]
+  productsAdded    Product[] @relation("UserProducts")
+  stocksMoved StockMovement[] @relation("UserStocksMoved")
 
-  accountCreatedAt DateTime @default(now())
-}
+  accountCreatedAt DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
-model Product {
-  id          String @id @default(ulid())
-  name        String
-  sku         String @unique
-  description String
-  price       Float
-
-  addedBy    User   @relation(fields: [addedByUID], references: [id])
-  addedByUID String
-
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  @@map("users")
 }
 
 model Category {
-  id       String    @id @default(ulid())
-  name     String    @unique
-  products Product[]
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String    @unique
+  description String?
+  products    Product[] @relation("CategoryProducts")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("categories")
+}
+
+model Product {
+  id          String @id @default(uuid()) @db.Uuid
+  name        String
+  sku         String @unique
+  description String
+  price       Decimal @db.Decimal(10, 2)
+
+  addedBy    User   @relation("UserProducts",fields: [addedByUid], references: [id])
+  addedByUid String @db.Uuid
+
+  category   Category @relation("CategoryProducts", fields: [categoryId], references: [id])
+  categoryId String @db.Uuid
+
+  movements StockMovement[] @relation("ProductMovement")
 
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("products")
+}
+
+model StockMovement {
+  id String @id @default(uuid()) @db.Uuid
+  type MovementType
+  quantity Int @default(1)
+  timestamp DateTime @default(now())
+
+  product Product @relation("ProductMovement", fields: [productId], references: [id])
+  productId String @db.Uuid
+
+  initiatedBy User @relation("UserStocksMoved",fields: [initiatedByUid], references: [id])
+  initiatedByUid String @db.Uuid
+}
+
+
+enum ROLE {
+  ADMIN
+  MANAGER
+  SALES // Sales Team Staff
+  STAFF // General staff including helpers, movers and delivery people
+  CUSTOMER
+}
+
+enum MovementType {
+  INCOMING // Supplier purchase, stock return
+  OUTGOING // Sale, damaged goods write-off
+  ADJUSTMENT // Manual override from physical audit
 }

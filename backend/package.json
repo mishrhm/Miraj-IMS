@@ -12,7 +12,8 @@
     "db:studio": "npx prisma studio",
     "db:migrate": "npx prisma migrate dev",
     "db:pull": "npx prisma db pull",
-    "dev": "ts-node src/index.ts"
+    "db:generate": "npx prisma generate",
+    "dev": "tsx watch src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
     "dotenv": "^17.4.2",
     "prisma": "^7.8.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.22.1",
     "typescript": "^6.0.3"
   },
   "dependencies": {
