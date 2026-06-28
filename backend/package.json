@@ -13,7 +13,7 @@
     "db:migrate": "npx prisma migrate dev",
     "db:pull": "npx prisma db pull",
     "db:generate": "npx prisma generate",
-    "db:clear": "npx tsx utils/clear-db-dev.ts",
+    "db:clear": "npx tsx src/utils/clear-db-dev.ts",
     "dev": "tsx watch src/index.ts"
   },
   "keywords": [],

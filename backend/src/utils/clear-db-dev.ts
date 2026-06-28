@@ -39,4 +39,4 @@ async function purgeDatabase() {
 }
 
 // Invoke method when required.
-// await purgeDatabase();
+await purgeDatabase();
