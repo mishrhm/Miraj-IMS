@@ -43,7 +43,12 @@ model Product {
   name        String
   sku         String @unique
   description String
-  price       Decimal @db.Decimal(10, 2)
+
+  // Baseline Catalog Financials
+  purchasePrice    Decimal  @db.Decimal(10, 2) // Default baseline vendor cost
+  retailPrice Decimal  @db.Decimal(10, 2) // Default baseline shelf price
+  sellingPrice Decimal  @db.Decimal(10, 2) // Selling price may be different due to discounts or markups
+  reorderPoint Int      @default(10)        // System threshold flag for low stock alerts
 
   addedBy    User   @relation("UserProducts",fields: [addedByUid], references: [id])
   addedByUid String @db.Uuid

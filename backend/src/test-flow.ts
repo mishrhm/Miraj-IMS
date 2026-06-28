@@ -76,7 +76,9 @@ async function runSystemValidation() {
       sku: productSku,
       description:
         "Enterprise rack-mountable core switch featuring localized software control.",
-      price: 2450.5,
+      purchasePrice: 2000.5,
+      retailPrice: 3450.5,
+      sellingPrice: 3200.5,
       addedByUid: userUID, // Binding relations cleanly via validated UUID
       categoryId: categoryUID, // Binding relations cleanly via validated UUID
     });
@@ -118,7 +120,9 @@ async function runSystemValidation() {
         sku: productSku, // Reusing the exact same unique SKU generated in Step 3
         description:
           "This should fail at the database constraint layer immediately.",
-        price: 999.99,
+        purchasePrice: 999.99,
+        retailPrice: 1299.99,
+        sellingPrice: 1099.99,
         addedByUid: userUID,
         categoryId: categoryUID,
       });

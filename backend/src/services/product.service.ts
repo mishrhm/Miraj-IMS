@@ -6,7 +6,9 @@ interface CreateProductDTO {
   name: string;
   sku: string;
   description: string;
-  price: number | Decimal;
+  purchasePrice: number | Decimal;
+  retailPrice: number | Decimal;
+  sellingPrice: number | Decimal;
   addedByUid: string;
   categoryId: string;
 }
