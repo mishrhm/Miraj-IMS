@@ -14,15 +14,18 @@
     "db:pull": "npx prisma db pull",
     "db:generate": "npx prisma generate",
     "db:clear": "npx tsx src/utils/clear-db-dev.ts",
-    "dev": "tsx watch src/index.ts"
+    "dev": "npx tsx --env-file=.env src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
-    "@types/node": "^25.6.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.9.4",
     "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "prisma": "^7.8.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.22.1",
@@ -32,6 +35,7 @@
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
     "pg": "^8.20.0"
   }
 }

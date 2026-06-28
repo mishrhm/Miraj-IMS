@@ -1,20 +1,20 @@
-import {
-  createNewUser,
-  deleteUserByEmail,
-  deleteUserByUid,
-  listUsers,
-} from "./services/user.service.js";
+import { log } from "node:console";
+import app from "./app.js";
 
-// createNewUser({ name: "iqra", email: "iqra@miraj.co", password: "iqra123" });
+const PORT = process.env.PORT || 5000;
 
-async function main() {
-  console.log("List of Users before deletion");
-  await listUsers();
-  console.log("\n\n");
-  await deleteUserByEmail("iqra@miraj.co");
-  console.log("\n\n");
-  console.log("List of Users after deletion");
-  await listUsers();
+async function startServer() {
+  try {
+    app.listen(PORT, () => {
+      log(
+        `🚀 Miraj-IMS Backend Running Engine Active on: http://localhost:${PORT}`,
+      );
+      log(`🟢 Health monitor point live at: http://localhost:${PORT}/health`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to bind HTTP server socket listener:", error);
+    process.exit(1);
+  }
 }
 
-main();
+startServer();
