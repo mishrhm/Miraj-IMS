@@ -1,6 +1,7 @@
 import type { MovementType } from "@prisma/client";
 import { prisma } from "../prisma.js";
 import { log } from "node:console";
+import { handleDbError } from "../utils/db-error.js";
 
 interface LogMovementDTO {
   type: MovementType;
@@ -20,7 +21,7 @@ export async function logStockMovement(dto: LogMovementDTO) {
 
     return movement;
   } catch (error) {
-    console.error("❌ Failed to log stock movement:", error);
+    handleDbError("Log Stock Movement", error);
     throw error;
   }
 }
@@ -36,7 +37,7 @@ export async function listStockMovements() {
     });
     return movementList;
   } catch (error) {
-    console.error("❌ Database error listing movements:", error);
+    handleDbError("List Stock Movements", error);
     throw error;
   }
 }

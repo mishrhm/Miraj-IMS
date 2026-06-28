@@ -1,5 +1,6 @@
 import type { Decimal } from "@prisma/client/runtime/client";
 import { prisma } from "../prisma.js";
+import { handleDbError } from "../utils/db-error.js";
 
 interface CreateProductDTO {
   name: string;
@@ -22,7 +23,7 @@ export async function createProduct(dto: CreateProductDTO) {
         `Product mapping failed: SKU "${dto.sku}" is already assigned.`,
       );
     }
-    console.error("❌ Database error creating product:", error);
+    handleDbError("Create Product", error);
     throw error;
   }
 }
@@ -43,7 +44,7 @@ export async function listProducts() {
     });
     return productList;
   } catch (error) {
-    console.error("❌ Database error listing product:", error);
+    handleDbError("List Products", error);
     throw error;
   }
 }

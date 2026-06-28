@@ -1,6 +1,7 @@
 import { log } from "node:console";
 import { prisma } from "../prisma.js";
 import type { ROLE } from "@prisma/client";
+import { handleDbError } from "../utils/db-error.js";
 
 interface UserDTO {
   name: string;
@@ -24,7 +25,7 @@ export async function createNewUser(dto: UserDTO) {
     log("👤 User created successfully:", createdUser);
     return createdUser;
   } catch (error) {
-    console.error("❌ Failed to create user:", error);
+    handleDbError("Create Users", error);
     throw error;
   }
 }
@@ -41,7 +42,7 @@ export async function listUsers() {
     log(`📋 Retrieved ${usersList.length} users:`, usersList);
     return usersList;
   } catch (error) {
-    console.error("❌ Failed to retrieve users list:", error);
+    handleDbError("List Users", error);
     throw error;
   }
 }
@@ -61,13 +62,13 @@ export async function deleteUserByUid(uid: string) {
     log("🗑️ User deleted successfully:", deletedUser);
     return deletedUser;
   } catch (error) {
-    console.error(`❌ Failed to delete user with UID ${uid}:`, error);
+    handleDbError("Delete User By Id", error);
     throw error;
   }
 }
 
 export async function deleteUserByEmail(email: string) {
-  console.info("Deleting user with email:", email);
+  console.info(`Deleting user with email: ${email}`);
 
   try {
     const deletedUser = await prisma.user.delete({
@@ -82,7 +83,7 @@ export async function deleteUserByEmail(email: string) {
     log("🗑️ User deleted successfully:", deletedUser);
     return deletedUser;
   } catch (error) {
-    console.error(`❌ Failed to delete user with email ${email}:`, error);
+    handleDbError("Delete User By Email", error);
     throw error;
   }
 }

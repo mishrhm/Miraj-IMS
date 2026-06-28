@@ -1,5 +1,6 @@
 import { log } from "node:console";
 import { prisma } from "../prisma.js";
+import { handleDbError } from "../utils/db-error.js";
 
 interface CreateCategoryDTO {
   name: string;
@@ -17,7 +18,7 @@ export async function createCategory(dto: CreateCategoryDTO) {
     if (error.code === "P2002") {
       throw new Error(`Category with name "${dto.name}" already exists.`);
     }
-    console.error("❌ Database error creating category:", error);
+    handleDbError("Create Category", error);
     throw error;
   }
 }
@@ -34,7 +35,7 @@ export async function listCategories() {
     });
     return categoryList;
   } catch (error) {
-    console.error("❌ Failed to list categories:", error);
+    handleDbError("List Category", error);
     throw error;
   }
 }
@@ -56,7 +57,7 @@ export async function deleteCategory(id: string) {
       where: { id },
     });
   } catch (error) {
-    console.error(`❌ Failed to delete category ${id}:`, error);
+    handleDbError("Delete Category", error);
     throw error;
   }
 }
