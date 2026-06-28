@@ -1,20 +1,21 @@
 import { log } from "node:console";
-import { Interface } from "node:readline";
 import { prisma } from "../prisma.js";
+import type { ROLE } from "@prisma/client";
 
-interface UserDetails {
+interface UserDTO {
   name: string;
   email: string;
-  password: string;
+  hashedPassword: string;
+  role: ROLE;
 }
 
-export async function createNewUser(userDetails: UserDetails) {
+export async function createNewUser(dto: UserDTO) {
   try {
+    const { hashedPassword: password, ...rest } = dto;
     const createdUser = await prisma.user.create({
       data: {
-        email: userDetails.email,
-        name: userDetails.name,
-        password: userDetails.password, //We should encrypt this
+        ...rest,
+        password,
       },
       select: {
         email: true,

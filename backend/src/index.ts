@@ -3,7 +3,7 @@ import {
   deleteUserByEmail,
   deleteUserByUid,
   listUsers,
-} from "./services/user_services.js";
+} from "./services/user.service.js";
 
 // createNewUser({ name: "iqra", email: "iqra@miraj.co", password: "iqra123" });
 
