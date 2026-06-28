@@ -16,13 +16,13 @@ model User {
   email    String @unique
   password String
   name     String
-  role     ROLE @default(CUSTOMER)
+  role     ROLE   @default(CUSTOMER)
 
-  productsAdded    Product[] @relation("UserProducts")
-  stocksMoved StockMovement[] @relation("UserStocksMoved")
+  productsAdded Product[]       @relation("UserProducts")
+  stocksMoved   StockMovement[] @relation("UserStocksMoved")
 
-  accountCreatedAt DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  accountCreatedAt DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@map("users")
 }
@@ -45,16 +45,16 @@ model Product {
   description String
 
   // Baseline Catalog Financials
-  purchasePrice    Decimal  @db.Decimal(10, 2) // Default baseline vendor cost
-  retailPrice Decimal  @db.Decimal(10, 2) // Default baseline shelf price
-  sellingPrice Decimal  @db.Decimal(10, 2) // Selling price may be different due to discounts or markups
-  reorderPoint Int      @default(10)        // System threshold flag for low stock alerts
+  purchasePrice Decimal @db.Decimal(10, 2) // Default baseline vendor cost
+  retailPrice   Decimal @db.Decimal(10, 2) // Default baseline shelf price
+  sellingPrice  Decimal @db.Decimal(10, 2) // Selling price may be different due to discounts or markups
+  reorderPoint  Int     @default(10) // System threshold flag for low stock alerts
 
-  addedBy    User   @relation("UserProducts",fields: [addedByUid], references: [id])
+  addedBy    User   @relation("UserProducts", fields: [addedByUid], references: [id])
   addedByUid String @db.Uuid
 
   category   Category @relation("CategoryProducts", fields: [categoryId], references: [id])
-  categoryId String @db.Uuid
+  categoryId String   @db.Uuid
 
   movements StockMovement[] @relation("ProductMovement")
 
@@ -65,20 +65,24 @@ model Product {
 }
 
 model StockMovement {
-  id String @id @default(uuid()) @db.Uuid
-  type MovementType
-  quantity Int @default(1)
-  timestamp DateTime @default(now())
+  id        String       @id @default(uuid()) @db.Uuid
+  type      MovementType
+  quantity  Int          @default(1)
+  timestamp DateTime     @default(now())
 
-  product Product @relation("ProductMovement", fields: [productId], references: [id])
-  productId String @db.Uuid
+  product   Product @relation("ProductMovement", fields: [productId], references: [id])
+  productId String  @db.Uuid
 
-  initiatedBy User @relation("UserStocksMoved",fields: [initiatedByUid], references: [id])
+  // Dynamic Financial Transaction Ledger (Captures the exact historical reality)
+  pricePerUnit   Decimal @db.Decimal(10, 2) // Actual buying/selling price for this transaction
+  deliveryFee    Decimal @default(0.00) @db.Decimal(10, 2) // Transport/fulfillment overheads
+  commissionPaid Decimal @default(0.00) @db.Decimal(10, 2) // Payouts to sales reps/staff
+
+  initiatedBy    User   @relation("UserStocksMoved", fields: [initiatedByUid], references: [id])
   initiatedByUid String @db.Uuid
 
   @@map("stockMovements")
 }
-
 
 enum ROLE {
   ADMIN

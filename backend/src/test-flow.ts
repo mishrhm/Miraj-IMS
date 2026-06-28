@@ -98,6 +98,9 @@ async function runSystemValidation() {
       quantity: 50, // Added initial inventory allocation balance
       productId: productUID,
       initiatedByUid: userUID,
+      pricePerUnit: 120,
+      commissionPaid: 20,
+      deliveryFee: 15,
     });
 
     await logStockMovement({
@@ -105,6 +108,9 @@ async function runSystemValidation() {
       quantity: 5, // Simulating a storefront sale transaction
       productId: productUID,
       initiatedByUid: userUID,
+      pricePerUnit: 80,
+      commissionPaid: 0,
+      deliveryFee: 2,
     });
 
     // 5. Final Comprehensive Verification Check

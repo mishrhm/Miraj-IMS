@@ -2,11 +2,15 @@ import type { MovementType } from "@prisma/client";
 import { prisma } from "../prisma.js";
 import { log } from "node:console";
 import { handleDbError } from "../utils/db-error.js";
+import type { Decimal } from "@prisma/client/runtime/client";
 
 interface LogMovementDTO {
   type: MovementType;
   quantity: number;
   productId: string;
+  pricePerUnit: Decimal | number;
+  deliveryFee: Decimal | number;
+  commissionPaid: Decimal | number;
   initiatedByUid: string;
 }
 
