@@ -1,25 +1,20 @@
-import { log } from "node:console";
-import { prisma } from "./prisma.js";
+import {
+  createNewUser,
+  deleteUserByEmail,
+  deleteUserByUid,
+  listUsers,
+} from "./services/user_services.js";
 
-async function createNewUser() {
-  try {
-    log("Sending user data to PostgreSQL in Docker...");
+// createNewUser({ name: "iqra", email: "iqra@miraj.co", password: "iqra123" });
 
-    const newUser = await prisma.user.create({
-      data: {
-        name: "Mish Rahman",
-        email: "mishal@miraj.co",
-        password: "mish123321",
-        role: "Tech Lead",
-      },
-    });
-
-    log("🎉 Added new user successfully:", newUser);
-  } catch (error) {
-    console.error("❌ Database insertion failed:", error);
-  } finally {
-    await prisma.$disconnect();
-  }
+async function main() {
+  console.log("List of Users before deletion");
+  await listUsers();
+  console.log("\n\n");
+  await deleteUserByEmail("iqra@miraj.co");
+  console.log("\n\n");
+  console.log("List of Users after deletion");
+  await listUsers();
 }
 
-createNewUser();
+main();

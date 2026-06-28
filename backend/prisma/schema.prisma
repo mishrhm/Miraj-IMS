@@ -70,6 +70,8 @@ model StockMovement {
 
   initiatedBy User @relation("UserStocksMoved",fields: [initiatedByUid], references: [id])
   initiatedByUid String @db.Uuid
+
+  @@map("stockMovements")
 }
 
 
