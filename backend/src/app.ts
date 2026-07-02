@@ -19,6 +19,8 @@ app.get("/health", (req: Request, res: Response) => {
 });
 
 
+
+
 app.use(errorMiddleWare);
 
 export default app;
