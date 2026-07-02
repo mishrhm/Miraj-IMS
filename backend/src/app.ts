@@ -1,11 +1,10 @@
 import cors from "cors";
 import express, {
-  type RequestHandler,
   type Request,
-  type Response,
-  type NextFunction,
+  type Response
 } from "express";
-import { uptime } from "node:process";
+import { errorMiddleWare } from "./middlewares/error.middleware.js";
+
 
 const app = express();
 app.use(cors());
@@ -19,19 +18,7 @@ app.get("/health", (req: Request, res: Response) => {
   });
 });
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error("❌ Unhandled Application Error:", err);
 
-  const statusCode = err.statusCode || 500;
-  const message =
-    err.message || "An unexpected internal server error occurred.";
-
-  res.status(statusCode).json({
-    error: {
-      message,
-      status: statusCode,
-    },
-  });
-});
+app.use(errorMiddleWare);
 
 export default app;
