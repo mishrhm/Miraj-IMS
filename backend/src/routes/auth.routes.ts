@@ -18,3 +18,5 @@ const signUpHandler: RequestHandler = async (req: Request, res: Response, next: 
 }
 
 authRouter.post("/signup", validate(SignUpSchema), signUpHandler);
+
+export default authRouter;

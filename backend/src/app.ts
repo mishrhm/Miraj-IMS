@@ -4,6 +4,7 @@ import express, {
   type Response
 } from "express";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
+import authRouter from "./routes/auth.routes.js";
 
 
 const app = express();
@@ -18,6 +19,7 @@ app.get("/health", (req: Request, res: Response) => {
   });
 });
 
+app.use("/api/v1/auth", authRouter);
 
 
 app.use(errorMiddleware);
