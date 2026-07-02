@@ -13,7 +13,7 @@ export class AuthService {
 
         if (existingUser) {
             const error: any = new Error("This email address is already in use.")
-            error.status = 400;
+            error.statusCode = 400;
             throw error;
         }
 
