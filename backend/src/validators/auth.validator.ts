@@ -1,3 +1,4 @@
+import { ROLE } from "@prisma/client";
 import { z } from "zod";
 
 
@@ -10,7 +11,9 @@ export const SignUpSchema = z.object({
         email: z.email({ error: "Please provide a valid email address." }),
 
         password: z.string({ error: "Password is required to create an account" })
-            .min(4, "Password should be at least 4 characters long.")
+            .min(4, "Password should be at least 4 characters long."),
+
+        role: z.enum(Object.values(ROLE)).optional().default(ROLE.CUSTOMER)
     })
 })
 

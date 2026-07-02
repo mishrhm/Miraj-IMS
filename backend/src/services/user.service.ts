@@ -26,7 +26,17 @@ export async function createNewUser(dto: UserDTO) {
     return createdUser;
   } catch (error) {
     handleDbError("Create Users", error);
-    throw error;
+  }
+}
+
+export async function findUserByEmail(email: string) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email }
+    })
+    return user;
+  } catch (error) {
+    handleDbError("Finding User:", error);
   }
 }
 
