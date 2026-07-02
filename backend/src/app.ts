@@ -3,7 +3,7 @@ import express, {
   type Request,
   type Response
 } from "express";
-import { errorMiddleWare } from "./middlewares/error.middleware.js";
+import { errorMiddleware } from "./middlewares/error.middleware.js";
 
 
 const app = express();
@@ -20,7 +20,6 @@ app.get("/health", (req: Request, res: Response) => {
 
 
 
-
-app.use(errorMiddleWare);
+app.use(errorMiddleware);
 
 export default app;
