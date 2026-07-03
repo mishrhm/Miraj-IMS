@@ -17,4 +17,15 @@ export const SignUpSchema = z.object({
     })
 })
 
+export const LoginSchema = z.object({
+    body: z.object({
+        email: z.email({ error: "Please provide a valid email address." }),
+        password: z.string({ error: "Password is required to log in." }),
+    })
+})
+
 export type SignUpInput = z.infer<typeof SignUpSchema>
+export type LoginType = z.infer<typeof LoginSchema>
+
+export type SignUpBody = SignUpInput["body"];
+export type LoginBody = LoginType["body"];
