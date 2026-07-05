@@ -1,8 +1,9 @@
 import { type RequestHandler, type Request, type Response, type NextFunction, Router } from "express";
 import { CategoryService } from "../services/category.service.js";
-import { requireAuth } from "../middlewares/auth.middleware.js";
+import { requireAuth, requireRoles } from "../middlewares/auth.middleware.js";
 import { CreateCategorySchema, DeleteCategorySchema, type CreateCategoryBody, type DeleteCategoryParams } from "../validators/category.validator.js";
 import { validate } from "../middlewares/validate.middleware.js";
+import { ROLE } from "@prisma/client";
 
 const categoryRouter = Router();
 
@@ -46,6 +47,6 @@ const handleDeleteCategory: RequestHandler = async (req: Request, res: Response,
 
 categoryRouter.get("/", handleGetAllCategory);
 categoryRouter.post("/", requireAuth, validate(CreateCategorySchema), handleCreateCategory);
-categoryRouter.post("/:id", requireAuth, validate(DeleteCategorySchema), handleDeleteCategory);
+categoryRouter.post("/:id", requireAuth, requireRoles(ROLE.ADMIN, ROLE.MANAGER, ROLE.SALES), validate(DeleteCategorySchema), handleDeleteCategory);
 
 export default categoryRouter;

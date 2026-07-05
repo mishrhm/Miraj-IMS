@@ -34,3 +34,28 @@ export const requireAuth: RequestHandler = (req: Request, res: Response, next: N
         next(error);
     }
 }
+
+export const requireRoles = (...allowedRoles: ROLE[]): RequestHandler =>
+    (req: Request, res: Response, next: NextFunction) => {
+        try {
+            if (!req.user) {
+                res.status(401).json({
+                    error: {
+                        message: "Authentication required before checking permission."
+                    }
+                })
+                return;
+            }
+            if (!allowedRoles.includes(req.user.role)) {
+                res.status(401).json({
+                    error: {
+                        message: "Access denied. Your role has insufficient privilege to perform this action."
+                    }
+                })
+                return;
+            }
+            next();
+        } catch (error) {
+            next(error)
+        }
+    };
