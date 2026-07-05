@@ -23,7 +23,13 @@ export const requireAuth: RequestHandler = (req: Request, res: Response, next: N
         const token = authHeader.split(" ")[1] ?? "";
         const jwtSecret = process.env.JWT_SECRET || "HPAB40THPAB40T";
 
-        const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
+        const { userId, email, role } = jwt.verify(token, jwtSecret) as JwtPayload;
+        req.user = {
+            userId,
+            email,
+            role,
+        }
+        next();
     } catch (error) {
         next(error);
     }
