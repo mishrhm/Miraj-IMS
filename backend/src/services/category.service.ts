@@ -56,7 +56,12 @@ export class CategoryService {
       return await prisma.category.delete({
         where: { id },
       });
-    } catch (error) {
+    } catch (error: any) {
+      if (error.code === "P2025") {
+        const notFound: any = new Error("Category not found.");
+        notFound.statusCode = 404;
+        throw notFound;
+      }
       handleDbError("Delete Category", error);
     }
   }
