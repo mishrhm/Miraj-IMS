@@ -5,6 +5,7 @@ import express, {
 } from "express";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import authRouter from "./routes/auth.routes.js";
+import categoryRouter from "./routes/category.routes.js";
 
 
 const app = express();
@@ -20,6 +21,8 @@ app.get("/health", (req: Request, res: Response) => {
 });
 
 app.use("/api/v1/auth", authRouter);
+
+app.use("/api/v1/categories", categoryRouter);
 
 
 app.use(errorMiddleware);

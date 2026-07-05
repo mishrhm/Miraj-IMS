@@ -9,5 +9,13 @@ export const CreateCategorySchema = z.object({
     })
 })
 
+export const DeleteCategorySchema = z.object({
+    params: z.object({
+        id: z.uuid("Invalid Category ID."),
+    })
+})
+
 export type CreateCategoryInput = z.infer<typeof CreateCategorySchema>;
 export type CreateCategoryBody = CreateCategoryInput["body"];
+export type DeleteCategoryInput = z.infer<typeof DeleteCategorySchema>
+export type DeleteCategoryParams = DeleteCategoryInput["params"];
