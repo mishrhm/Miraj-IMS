@@ -14,7 +14,7 @@
     "db:pull": "npx prisma db pull",
     "db:generate": "npx prisma generate",
     "db:clear": "npx tsx src/utils/clear-db-dev.ts",
-    "dev": "npx tsx --env-file=.env src/index.ts"
+    "dev": "npx tsx watch --env-file=.env src/index.ts"
   },
   "keywords": [],
   "author": "",

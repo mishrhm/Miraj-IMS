@@ -46,7 +46,7 @@ const handleDeleteCategory: RequestHandler = async (req: Request, res: Response,
 }
 
 categoryRouter.get("/", handleGetAllCategory);
-categoryRouter.post("/", requireAuth, validate(CreateCategorySchema), handleCreateCategory);
+categoryRouter.post("/", requireAuth, requireRoles(ROLE.ADMIN, ROLE.MANAGER, ROLE.SALES), validate(CreateCategorySchema), handleCreateCategory);
 categoryRouter.post("/:id", requireAuth, requireRoles(ROLE.ADMIN, ROLE.MANAGER, ROLE.SALES), validate(DeleteCategorySchema), handleDeleteCategory);
 
 export default categoryRouter;
