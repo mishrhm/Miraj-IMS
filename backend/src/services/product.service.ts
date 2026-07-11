@@ -14,13 +14,7 @@ export class ProductService {
       });
       return product;
     } catch (error: any) {
-      if (error.code === "P2002") {
-        throw new Error(
-          `Product mapping failed: SKU "${dto.sku}" is already assigned.`,
-        );
-      }
       handleDbError("Create Product", error);
-      throw error;
     }
   }
 
