@@ -13,12 +13,6 @@ export class CategoryService {
       });
       return category;
     } catch (error: any) {
-      if (error.code === "P2002") {
-        const customError: any = new Error(`Category with name "${dto.name}" already exists.`);
-        customError.statusCode = 400;
-        throw customError;
-      }
-
       handleDbError("Create Category", error);
     }
   }
