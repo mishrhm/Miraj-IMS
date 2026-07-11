@@ -1,9 +1,8 @@
-import type { Decimal } from "@prisma/client/runtime/client";
 import { prisma } from "../prisma.js";
 import { handleDbError } from "../utils/db-error.js";
 import type { CreateProductDTO } from "../validators/product.validator.js";
 
-export class ProductClass {
+export class ProductService {
   static async createProduct(dto: CreateProductDTO, addedByUid: string) {
     try {
       const product = await prisma.product.create({
