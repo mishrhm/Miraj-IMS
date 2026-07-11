@@ -1,52 +1,48 @@
 import type { Decimal } from "@prisma/client/runtime/client";
 import { prisma } from "../prisma.js";
 import { handleDbError } from "../utils/db-error.js";
+import type { CreateProductDTO } from "../validators/product.validator.js";
 
-interface CreateProductDTO {
-  name: string;
-  sku: string;
-  description: string;
-  purchasePrice: number | Decimal;
-  retailPrice: number | Decimal;
-  sellingPrice: number | Decimal;
-  addedByUid: string;
-  categoryId: string;
-}
-
-export async function createProduct(dto: CreateProductDTO) {
-  try {
-    const product = await prisma.product.create({
-      data: dto,
-    });
-    return product;
-  } catch (error: any) {
-    if (error.code === "P2002") {
-      throw new Error(
-        `Product mapping failed: SKU "${dto.sku}" is already assigned.`,
-      );
+export class ProductClass {
+  static async createProduct(dto: CreateProductDTO, addedByUid: string) {
+    try {
+      const product = await prisma.product.create({
+        data: {
+          ...dto,
+          reorderPoint: dto.reorderPoint ?? 10,
+          addedByUid: addedByUid,
+        },
+      });
+      return product;
+    } catch (error: any) {
+      if (error.code === "P2002") {
+        throw new Error(
+          `Product mapping failed: SKU "${dto.sku}" is already assigned.`,
+        );
+      }
+      handleDbError("Create Product", error);
+      throw error;
     }
-    handleDbError("Create Product", error);
-    throw error;
   }
-}
 
-export async function listProducts() {
-  try {
-    const productList = await prisma.product.findMany({
-      orderBy: { createdAt: "asc" },
-      include: {
-        category: {
-          select: { name: true },
+  static async getAllProducts() {
+    try {
+      const productList = await prisma.product.findMany({
+        orderBy: { createdAt: "asc" },
+        include: {
+          category: {
+            select: { name: true },
+          },
+          addedBy: {
+            select: { name: true, email: true },
+          },
+          _count: true,
         },
-        addedBy: {
-          select: { name: true, email: true },
-        },
-        _count: true,
-      },
-    });
-    return productList;
-  } catch (error) {
-    handleDbError("List Products", error);
-    throw error;
+      });
+      return productList;
+    } catch (error) {
+      handleDbError("List Products", error);
+    }
   }
+
 }

@@ -43,5 +43,5 @@ export const CreateProductSchema = z.object({
     }),
 });
 
-export type CreateProductDTO = z.infer<typeof CreateProductSchema>
-export type CreateProductBody = CreateProductDTO["body"];
+export type CreateProductInput = z.infer<typeof CreateProductSchema>
+export type CreateProductDTO = CreateProductInput["body"];
