@@ -23,7 +23,7 @@ const handleCreateProduct: RequestHandler = async (req: Request, res: Response, 
 const handleGetAllProducts: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const allProducts = await ProductService.getAllProducts();
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             data: allProducts,
         })
