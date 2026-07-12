@@ -43,5 +43,15 @@ export const CreateProductSchema = z.object({
   }),
 });
 
+export const ProductIdSchema = z.object({
+  params: z.object({
+    productId: z.uuid(
+      "The product id param should be a valid UUID reference of the product.",
+    ),
+  }),
+});
+
 export type CreateProductInput = z.infer<typeof CreateProductSchema>;
 export type CreateProductDTO = CreateProductInput["body"];
+export type ProductIdInput = z.infer<typeof ProductIdSchema>;
+export type ProductIdDTO = ProductIdInput["params"];
