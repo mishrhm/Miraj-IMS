@@ -4,8 +4,10 @@ export function handleDbError(action: string, error: any): never {
   const enhancedError = error;
 
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    enhancedError.isOperational = true;
     switch (error.code) {
       case "P2002":
+        console.log("Reached line 10");
         console.error(
           `❌ [${action}] Unique constraint failed: A record already exists with this ${(error.meta?.target as string[])?.join(", ") || "field"}.`,
         );
@@ -30,12 +32,14 @@ export function handleDbError(action: string, error: any): never {
         break;
 
       default:
+        enhancedError.isOperational = false;
         console.error(
           `❌ [${action}] Prisma Database Error (${error.code}): ${error.message}`,
         );
         enhancedError.statusCode = 500; //Internal Server Error fallback
     }
   } else {
+    enhancedError.isOperational = false;
     console.error(
       `❌ [${action}] Unexpected System Error:`,
       error?.message || error,

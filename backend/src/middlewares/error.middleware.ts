@@ -6,6 +6,15 @@ export function errorMiddleware(
   res: Response,
   next: NextFunction,
 ) {
+  if (err.isOperational) {
+    return res.status(err.statusCode).json({
+      success: false,
+      error: {
+        message: err.message,
+      },
+    });
+  }
+
   console.error("🚨 [CRITICAL UNHANDLED CRASH]:", err.stack || err);
 
   const statusCode = err.statusCode || 500;
