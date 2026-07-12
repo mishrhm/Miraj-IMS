@@ -6,15 +6,13 @@ export function errorMiddleware(
   res: Response,
   next: NextFunction,
 ) {
-  console.error("❌ Unhandled Application Error:", err);
+  console.error("🚨 [CRITICAL UNHANDLED CRASH]:", err.stack || err);
 
   const statusCode = err.statusCode || 500;
-  const message =
-    err.message || "An unexpected internal server error occurred.";
 
   res.status(statusCode).json({
     error: {
-      message,
+      message: "An unexpected internal server error occurred.",
       status: statusCode,
     },
   });
