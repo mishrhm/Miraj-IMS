@@ -56,6 +56,9 @@ model Product {
   category   Category @relation("CategoryProducts", fields: [categoryId], references: [id])
   categoryId String   @db.Uuid
 
+  supplier   Supplier? @relation("ProductSupplier", fields: [supplierId], references: [id])
+  supplierId String?   @db.Uuid
+
   movements StockMovement[] @relation("ProductMovement")
 
   createdAt DateTime @default(now())
@@ -81,7 +84,27 @@ model StockMovement {
   initiatedBy    User   @relation("UserStocksMoved", fields: [initiatedByUid], references: [id])
   initiatedByUid String @db.Uuid
 
+  supplier   Supplier? @relation("SupplierStocksMoved", fields: [supplierId], references: [id])
+  supplierId String?   @db.Uuid
+
   @@map("stockMovements")
+}
+
+model Supplier {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String   @unique
+  contactPerson String?
+  email         String   @unique
+  phone         String?
+  address       String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  products    Product[]       @relation("ProductSupplier")
+  stocksMoved StockMovement[] @relation("SupplierStocksMoved")
+
+  @@map("suppliers")
 }
 
 enum ROLE {

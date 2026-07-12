@@ -40,6 +40,10 @@ export const CreateProductSchema = z.object({
     categoryId: z
       .string({ error: "A valid Category association ID is required." })
       .uuid("Category ID must be a structurally valid UUID reference string."),
+
+    supplierId: z
+      .uuid("Supplier ID must be a valid UUID reference.")
+      .optional(),
   }),
 });
 

@@ -30,6 +30,10 @@ export const LogStockMovementSchema = z.object({
       .number({ error: "Commission paid must be a valid numeric value." })
       .nonnegative("Commission paid cannot drop below 0.")
       .optional(),
+
+    supplierId: z
+      .uuid("Supplier ID must be a valid UUID reference.")
+      .optional(),
   }),
 });
 
