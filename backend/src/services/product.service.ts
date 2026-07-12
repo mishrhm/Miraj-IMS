@@ -8,7 +8,7 @@ export class ProductService {
       const product = await prisma.product.create({
         data: {
           ...dto,
-          reorderPoint: dto.reorderPoint ?? 10,
+          reorderPoint: dto.reorderPoint,
           addedByUid: addedByUid,
         },
       });
