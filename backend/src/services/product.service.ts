@@ -37,5 +37,4 @@ export class ProductService {
       handleDbError("List Products", error);
     }
   }
-
 }

@@ -4,7 +4,6 @@ import { handleDbError } from "../utils/db-error.js";
 import type { CreateCategoryBody } from "../validators/category.validator.js";
 
 export class CategoryService {
-
   static async createCategory(dto: CreateCategoryBody) {
     try {
       log(`[CategoryService] Initiating creation payload for: ${dto.name}`);
