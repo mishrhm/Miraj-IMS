@@ -51,11 +51,6 @@ export class CategoryService {
         where: { id },
       });
     } catch (error: any) {
-      if (error.code === "P2025") {
-        const notFound: any = new Error("Category not found.");
-        notFound.statusCode = 404;
-        throw notFound;
-      }
       handleDbError("Delete Category", error);
     }
   }
